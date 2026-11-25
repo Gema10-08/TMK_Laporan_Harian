@@ -6,26 +6,45 @@
     <title>Dashboard - SPAM IKK Karimun</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-[#eef2f6] text-slate-800 antialiased">
+<body class="bg-[#eef2f6] text-slate-800 antialiased overflow-x-hidden">
+    {{-- Backdrop Gelap untuk Sidebar HP --}}
+    <div id="sidebarBackdrop"
+         onclick="toggleSidebar()"
+         class="fixed inset-0 bg-slate-900/50 z-30 hidden md:hidden transition-opacity"></div>
+
     <div class="flex min-h-screen">
         {{-- Sidebar Kiri --}}
-        <aside class="w-60 shrink-0 bg-[#084a75] text-white flex flex-col justify-between min-h-screen select-none">
+        <aside id="mobileSidebar"
+               class="fixed inset-y-0 left-0 z-40 w-60 shrink-0 bg-[#084a75] text-white flex flex-col justify-between min-h-screen select-none -translate-x-full md:translate-x-0 md:static transition-transform duration-200 ease-out">
             <div>
                 {{-- Brand Header --}}
-                <div class="px-4 py-4 border-b border-white/10 flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-lg bg-white text-[#084a75] font-extrabold text-[11px] flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
-                        <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}"
-                             alt="SPAM"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                             class="w-full h-full object-contain p-0.5">
-                        <span style="display:none;" class="w-full h-full items-center justify-center font-extrabold text-[10px]">SPAM</span>
-                    </div>
-                    <div class="min-w-0">
-                        <div class="text-[13px] font-bold leading-tight truncate">SPAM IKK Karimun</div>
-                        <div class="text-[8px] font-semibold tracking-[0.14em] uppercase text-sky-200/75 mt-0.5 truncate">
-                            SISTEM LAPORAN HARIAN
+                <div class="px-4 py-4 border-b border-white/10 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-9 h-9 rounded-lg bg-white text-[#084a75] font-extrabold text-[11px] flex items-center justify-center shrink-0 overflow-hidden shadow-sm"
+                             style="width: 36px; height: 36px;">
+                            <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}"
+                                 alt="SPAM"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                 class="w-full h-full object-contain p-0.5"
+                                 style="width: 100%; height: 100%; object-fit: contain;">
+                            <span style="display:none;" class="w-full h-full items-center justify-center font-extrabold text-[10px]">SPAM</span>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="text-[13px] font-bold leading-tight truncate">SPAM IKK Karimun</div>
+                            <div class="text-[8px] font-semibold tracking-[0.14em] uppercase text-sky-200/75 mt-0.5 truncate">
+                                SISTEM LAPORAN HARIAN
+                            </div>
                         </div>
                     </div>
+
+                    <button type="button"
+                            onclick="toggleSidebar()"
+                            class="md:hidden text-sky-200 hover:text-white p-1 rounded-md cursor-pointer"
+                            aria-label="Tutup Menu">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
                 </div>
 
                 {{-- Menu Navigasi --}}
@@ -52,9 +71,13 @@
                         </div>
 
                         <div class="pl-8 pr-2 space-y-1 mt-0.5 text-[11px]">
-                            <a href="{{ route('laporan.pompa') }}"
+                            <a href="{{ route('laporan.pompa.intake') }}"
                                class="block px-2.5 py-1.5 rounded-md text-sky-200/80 hover:text-white hover:bg-white/10 transition">
-                                Operasional Pompa
+                                Pompa Intake
+                            </a>
+                            <a href="{{ route('laporan.pompa.distribusi') }}"
+                               class="block px-2.5 py-1.5 rounded-md text-sky-200/80 hover:text-white hover:bg-white/10 transition">
+                                Pompa Distribusi
                             </a>
                             <a href="#"
                                class="block px-2.5 py-1.5 rounded-md text-sky-200/80 hover:text-white hover:bg-white/10 transition">
@@ -65,18 +88,8 @@
                 </nav>
             </div>
 
-            {{-- Footer Profil & Keluar --}}
-            <div class="p-3 border-t border-white/10 space-y-2.5">
-                <div class="flex items-center gap-2.5 px-1.5 py-1">
-                    <div class="w-8 h-8 rounded-full bg-[#246894] text-white font-bold text-[11px] flex items-center justify-center shrink-0">
-                        AS
-                    </div>
-                    <div class="min-w-0">
-                        <div class="text-xs font-semibold text-white truncate">Agus Setiawan</div>
-                        <div class="text-[9px] tracking-wider text-sky-200/70 uppercase">PEGAWAI</div>
-                    </div>
-                </div>
-
+            {{-- Footer Keluar --}}
+            <div class="p-3 border-t border-white/10">
                 <a href="{{ route('login') }}"
                    class="w-full py-2 px-3 rounded-lg bg-white/10 hover:bg-white/15 border border-white/10 text-[11px] font-medium text-white/90 flex items-center justify-center gap-1.5 transition">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -90,23 +103,34 @@
         {{-- Konten Utama --}}
         <div class="flex-1 flex flex-col min-w-0">
             {{-- Topbar --}}
-            <header class="bg-white border-b border-slate-200/80 px-6 py-3 flex items-center justify-between">
-                <div>
-                    <h1 class="text-[15px] font-bold text-slate-800 leading-tight">Dashboard</h1>
-                    <div class="text-[11px] text-slate-400 mt-0.5">
-                        Beranda &gt; <span class="text-[#0a5a8c] font-semibold">Dashboard</span>
+            <header class="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <button type="button"
+                            onclick="toggleSidebar()"
+                            class="md:hidden p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 shrink-0 cursor-pointer"
+                            aria-label="Buka Menu">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+
+                    <div class="min-w-0">
+                        <h1 class="text-[15px] font-bold text-slate-800 leading-tight truncate">Dashboard</h1>
+                        <div class="text-[11px] text-slate-400 mt-0.5 truncate">
+                            Beranda &gt; <span class="text-[#0a5a8c] font-semibold">Dashboard</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2.5 sm:gap-4 shrink-0">
                     <button type="button" class="text-slate-400 hover:text-slate-600 transition cursor-pointer" title="Notifikasi">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                         </svg>
                     </button>
 
-                    <div class="flex items-center gap-2.5">
-                        <div class="text-right leading-tight">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="text-right leading-tight hidden sm:block">
                             <div class="text-xs font-semibold text-slate-800">Agus Setiawan</div>
                             <div class="text-[10px] text-slate-400">Operasional IKK</div>
                         </div>
@@ -118,20 +142,20 @@
             </header>
 
             {{-- Body Dashboard --}}
-            <main class="p-6 space-y-5 max-w-[1440px] w-full mx-auto">
+            <main class="p-4 sm:p-6 space-y-5 max-w-[1440px] w-full mx-auto">
                 {{-- Hero Banner --}}
-                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0e5c8e] via-[#0a5280] to-[#08456d] text-white px-7 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
+                <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#0e5c8e] via-[#0a5280] to-[#08456d] text-white px-5 sm:px-7 py-5 sm:py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
                     <div class="pointer-events-none absolute right-24 -top-14 w-56 h-56 rounded-full bg-white/[0.05]"></div>
                     <div class="pointer-events-none absolute -right-8 -bottom-16 w-48 h-48 rounded-full bg-white/[0.04]"></div>
 
-                    <div class="relative z-10">
+                    <div class="relative z-10 min-w-0">
                         <div class="text-xs text-sky-200/90 font-normal">Selamat pagi,</div>
-                        <h2 class="text-[26px] font-bold tracking-tight text-white leading-snug mt-0.5">
+                        <h2 class="text-xl sm:text-[26px] font-bold tracking-tight text-white leading-snug mt-0.5">
                             Halo, Agus Setiawan
                         </h2>
-                        <div class="flex flex-wrap items-center gap-2.5 mt-3 text-[11px]">
+                        <div class="flex flex-wrap items-center gap-2 sm:gap-2.5 mt-3 text-[11px]">
                             <span class="inline-flex items-center gap-1.5 bg-white/15 border border-white/10 px-3 py-1 rounded-md font-medium text-white">
-                                <svg class="w-3.5 h-3.5 text-sky-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5 text-sky-200 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                 </svg>
                                 {{ $todayLabel ?? 'Selasa, 13 Januari 2026' }}
@@ -141,12 +165,6 @@
                             </span>
                         </div>
                     </div>
-
-                    <a href="{{ route('laporan.pompa') }}"
-                       class="relative z-10 inline-flex items-center justify-center gap-1.5 bg-white hover:bg-sky-50 text-[#084a75] font-semibold text-xs px-4 py-2.5 rounded-lg shadow-sm transition shrink-0">
-                        <span class="text-sm font-bold leading-none">+</span>
-                        <span>Buat Laporan</span>
-                    </a>
                 </div>
 
                 {{-- 3 Kartu Shift --}}
@@ -211,16 +229,16 @@
                                 @endif
                             </div>
 
-                            <div class="flex items-center justify-between bg-slate-50/90 border border-slate-100 rounded-lg px-3 py-2 text-xs">
+                            <div class="flex items-center justify-between gap-2 bg-slate-50/90 border border-slate-100 rounded-lg px-3 py-2 text-xs">
                                 <span class="text-slate-600 font-medium">Operasional Pompa</span>
-                                <span class="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded {{ $shift['pompa_status'] === 'SUDAH DIISI' ? 'bg-emerald-100/90 text-emerald-700' : 'bg-amber-100/90 text-amber-700' }}">
+                                <span class="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded shrink-0 {{ $shift['pompa_status'] === 'SUDAH DIISI' ? 'bg-emerald-100/90 text-emerald-700' : 'bg-amber-100/90 text-amber-700' }}">
                                     {{ $shift['pompa_status'] }}
                                 </span>
                             </div>
 
-                            <div class="flex items-center justify-between bg-slate-50/90 border border-slate-100 rounded-lg px-3 py-2 text-xs">
+                            <div class="flex items-center justify-between gap-2 bg-slate-50/90 border border-slate-100 rounded-lg px-3 py-2 text-xs">
                                 <span class="text-slate-600 font-medium">Pencampuran Larutan</span>
-                                <span class="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded {{ $shift['larutan_status'] === 'SUDAH DIISI' ? 'bg-emerald-100/90 text-emerald-700' : 'bg-amber-100/90 text-amber-700' }}">
+                                <span class="text-[9px] font-bold tracking-wider px-2 py-0.5 rounded shrink-0 {{ $shift['larutan_status'] === 'SUDAH DIISI' ? 'bg-emerald-100/90 text-emerald-700' : 'bg-amber-100/90 text-amber-700' }}">
                                     {{ $shift['larutan_status'] }}
                                 </span>
                             </div>
@@ -230,51 +248,47 @@
 
                 {{-- Akses Cepat & Ringkasan Bulan Ini --}}
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-                    {{-- Akses Cepat --}}
-                    <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+                    <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs">
                         <div class="text-[10px] font-bold uppercase tracking-[0.08em] text-[#084a75] mb-3.5">
                             Akses Cepat
                         </div>
-                        <div class="grid grid-cols-2 gap-3.5">
-                            <a href="{{ route('laporan.pompa') }}"
-                               class="rounded-xl border border-slate-300/80 hover:border-[#0e5c8e] bg-[#eef4f8] hover:bg-sky-50/80 py-5 px-4 flex flex-col items-center justify-center gap-2.5 text-center transition">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <a href="{{ route('laporan.pompa.intake') }}"
+                               class="rounded-xl border border-slate-300/80 hover:border-[#0e5c8e] bg-[#eef4f8] hover:bg-sky-50/80 py-4 sm:py-5 px-4 flex flex-col items-center justify-center gap-2.5 text-center transition">
                                 <div class="w-9 h-9 rounded-xl bg-white text-[#0e5c8e] shadow-2xs flex items-center justify-center">
-                                    {{-- Ikon Keran Air (Faucet) --}}
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 3a1 1 0 0 1 1 1v1h2.5a1 1 0 1 1 0 2H13v1.5h2a5 5 0 0 1 5 5V16a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-2.5a1 1 0 0 0-1-1h-1.268a2 2 0 0 1-3.464 0H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h5.268c.21-.364.482-.685.732-.94V7H8.5a1 1 0 1 1 0-2H11V4a1 1 0 0 1 1-1Z"/>
                                     </svg>
                                 </div>
-                                <span class="text-xs font-bold text-[#084a75]">Operasional Pompa</span>
+                                <span class="text-xs font-bold text-[#084a75]">Pompa Intake</span>
                             </a>
 
-                            <a href="#"
-                               class="rounded-xl border border-sky-200/70 hover:border-[#0e5c8e] bg-[#f1f8fc] hover:bg-sky-50/80 py-5 px-4 flex flex-col items-center justify-center gap-2.5 text-center transition">
+                            <a href="{{ route('laporan.pompa.distribusi') }}"
+                               class="rounded-xl border border-sky-200/70 hover:border-[#0e5c8e] bg-[#f1f8fc] hover:bg-sky-50/80 py-4 sm:py-5 px-4 flex flex-col items-center justify-center gap-2.5 text-center transition">
                                 <div class="w-9 h-9 rounded-xl bg-white text-[#1e6ca0] shadow-2xs flex items-center justify-center">
-                                    {{-- Ikon Tabung Reaksi (Test Tube) --}}
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M14.707 3.293a1 1 0 0 0-1.414 1.414l.293.293-7.586 7.586a3.5 3.5 0 0 0 4.95 4.95l7.586-7.586.293.293a1 1 0 0 0 1.414-1.414l-5.536-5.536Zm-4.243 7.071 4.536-4.536 2.121 2.121-2.536 2.536h-4.121v-.121Z"/>
                                     </svg>
                                 </div>
-                                <span class="text-xs font-bold text-[#084a75]">Pencampuran Larutan</span>
+                                <span class="text-xs font-bold text-[#084a75]">Pompa Distribusi</span>
                             </a>
                         </div>
                     </div>
 
-                    {{-- Ringkasan Bulan Ini --}}
-                    <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+                    <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs">
                         <div class="text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500 mb-3.5">
                             Ringkasan Bulan Ini
                         </div>
-                        <div class="grid grid-cols-3 gap-3 text-center">
-                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-5 px-3 flex flex-col items-center justify-center">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-4 sm:py-5 px-3 flex flex-col items-center justify-center">
                                 <div class="text-[9px] font-bold tracking-[0.06em] text-slate-400 uppercase">Laporan Tersimpan</div>
                                 <div class="text-base font-bold text-slate-700 mt-1.5">—</div>
                             </div>
-                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-5 px-3 flex flex-col items-center justify-center">
+                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-4 sm:py-5 px-3 flex flex-col items-center justify-center">
                                 <div class="text-[9px] font-bold tracking-[0.06em] text-slate-400 uppercase">Shift Belum Diisi</div>
                                 <div class="text-base font-bold text-slate-700 mt-1.5">—</div>
                             </div>
-                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-5 px-3 flex flex-col items-center justify-center">
+                            <div class="rounded-xl bg-slate-50/80 border border-slate-100 py-4 sm:py-5 px-3 flex flex-col items-center justify-center">
                                 <div class="text-[9px] font-bold tracking-[0.06em] text-slate-400 uppercase">Laporan Terakhir</div>
                                 <div class="text-[11px] italic text-slate-400 mt-2">Belum tersedia</div>
                             </div>
@@ -323,12 +337,12 @@
                     ];
                 @endphp
 
-                <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
                         <div class="text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500">
                             Riwayat Laporan Terbaru
                         </div>
-                        <div class="flex items-center gap-3">
+                        <div class="flex flex-wrap items-center gap-3">
                             <button type="button"
                                     class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-[11px] font-medium text-slate-600 cursor-pointer">
                                 <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -343,30 +357,30 @@
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-xs">
+                        <table class="min-w-[600px] w-full text-left border-collapse text-xs">
                             <thead>
                                 <tr class="border-b border-slate-200/80 text-[9px] font-bold uppercase tracking-[0.08em] text-slate-400">
-                                    <th class="py-2.5 px-3">Tanggal</th>
-                                    <th class="py-2.5 px-3">Shift</th>
-                                    <th class="py-2.5 px-3">Jenis Laporan</th>
-                                    <th class="py-2.5 px-3">Operator</th>
-                                    <th class="py-2.5 px-3">Status</th>
-                                    <th class="py-2.5 px-3 text-right">Aksi</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Tanggal</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Shift</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Jenis Laporan</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Operator</th>
+                                    <th class="py-2.5 px-3 whitespace-nowrap">Status</th>
+                                    <th class="py-2.5 px-3 text-right whitespace-nowrap">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100">
                                 @foreach ($riwayatList as $item)
                                     <tr class="hover:bg-slate-50/70 transition">
-                                        <td class="py-3 px-3 font-medium text-slate-700">{{ $item['tanggal'] }}</td>
-                                        <td class="py-3 px-3 text-slate-500">{{ $item['shift'] }}</td>
-                                        <td class="py-3 px-3">
+                                        <td class="py-3 px-3 font-medium text-slate-700 whitespace-nowrap">{{ $item['tanggal'] }}</td>
+                                        <td class="py-3 px-3 text-slate-500 whitespace-nowrap">{{ $item['shift'] }}</td>
+                                        <td class="py-3 px-3 whitespace-nowrap">
                                             <span class="px-2.5 py-0.5 rounded-md text-[10px] font-semibold {{ str_contains($item['jenis'], 'Pompa') ? 'bg-sky-100/90 text-[#0e5c8e]' : 'bg-indigo-100/90 text-indigo-700' }}">
                                                 {{ $item['jenis'] }}
                                             </span>
                                         </td>
-                                        <td class="py-3 px-3 text-slate-500">{{ $item['operator'] }}</td>
-                                        <td class="py-3 px-3 text-emerald-600 font-semibold text-[11px]">• {{ $item['status'] }}</td>
-                                        <td class="py-3 px-3 text-right">
+                                        <td class="py-3 px-3 text-slate-500 whitespace-nowrap">{{ $item['operator'] }}</td>
+                                        <td class="py-3 px-3 text-emerald-600 font-semibold text-[11px] whitespace-nowrap">• {{ $item['status'] }}</td>
+                                        <td class="py-3 px-3 text-right whitespace-nowrap">
                                             <button type="button" class="text-slate-400 hover:text-[#0e5c8e] p-1 cursor-pointer" title="Lihat Detail">
                                                 <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -383,5 +397,14 @@
             </main>
         </div>
     </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>

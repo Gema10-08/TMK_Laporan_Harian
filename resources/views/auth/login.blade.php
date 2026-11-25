@@ -6,19 +6,22 @@
     <title>Login - SPAM IKK Karimun</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-slate-200 flex items-center justify-center p-3 sm:p-6">
-    <div class="w-full max-w-6xl min-h-[660px] rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 bg-slate-200">
+<body class="min-h-dvh lg:min-h-screen bg-[#e5e7eb] lg:bg-slate-200 flex items-center justify-center p-4 sm:p-6 overflow-x-hidden">
+    <div class="w-full max-w-6xl lg:min-h-[660px] rounded-2xl lg:shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 lg:bg-slate-200">
 
-        {{-- Panel Kiri (Biru SPAM IKK Karimun) --}}
-        <div class="lg:col-span-7 relative overflow-hidden bg-gradient-to-br from-[#0a5a8c] via-[#074d7a] to-[#053b5e] text-white p-8 sm:p-12 flex flex-col justify-between">
+        {{-- Panel Kiri: disembunyikan di HP agar langsung fokus ke kolom login --}}
+        <div class="hidden lg:flex lg:col-span-7 relative overflow-hidden bg-gradient-to-br from-[#0a5a8c] via-[#074d7a] to-[#053b5e] text-white p-8 sm:p-12 flex-col justify-between">
             <div class="pointer-events-none absolute -top-24 -right-24 w-80 h-80 rounded-full bg-white/[0.04]"></div>
             <div class="pointer-events-none absolute -bottom-28 -left-20 w-80 h-80 rounded-full bg-white/[0.04]"></div>
 
             <div class="relative z-10">
-                {{-- Header Brand + Logo Tirta Mulia --}}
                 <div class="flex items-center gap-3.5 mb-12">
-                    <div class="w-12 h-12 rounded-xl bg-white shadow-md flex items-center justify-center shrink-0 overflow-hidden p-1">
-                        <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}" alt="Logo Tirta Mulia" class="w-full h-full object-contain">
+                    <div class="w-12 h-12 rounded-xl bg-white shadow-md flex items-center justify-center shrink-0 overflow-hidden p-1"
+                         style="width: 48px; height: 48px;">
+                        <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}"
+                             alt="Logo Tirta Mulia"
+                             class="w-full h-full object-contain"
+                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <div>
                         <div class="text-base sm:text-lg font-bold tracking-tight leading-tight text-white">
@@ -30,22 +33,18 @@
                     </div>
                 </div>
 
-                {{-- Badge Operasional 2026 --}}
                 <div class="inline-block bg-white/10 border border-white/15 text-sky-100 text-[10px] font-bold tracking-[0.14em] uppercase px-3 py-1 rounded-full mb-5">
                     OPERASIONAL 2026
                 </div>
 
-                {{-- Judul Utama --}}
                 <h1 class="text-3xl sm:text-[42px] font-extrabold leading-[1.12] tracking-tight text-white max-w-lg mb-5">
                     Laporan Harian Operasional Pompa Intake dan Distribusi
                 </h1>
 
-                {{-- Deskripsi --}}
                 <p class="text-sm text-sky-100/85 leading-relaxed max-w-lg mb-9">
                     Platform terintegrasi untuk pencatatan operasional harian, pengelolaan akun pegawai, dan rekapitulasi produksi air bulanan secara real-time.
                 </p>
 
-                {{-- 3 Poin Fitur --}}
                 <div class="space-y-4 max-w-lg">
                     <div class="flex items-start gap-3.5">
                         <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center shrink-0 mt-0.5 text-sky-200">
@@ -85,7 +84,6 @@
                 </div>
             </div>
 
-            {{-- Footer Kiri --}}
             <div class="relative z-10 flex items-center gap-3 pt-10 mt-8">
                 <span class="w-6 h-[1px] bg-sky-200/50"></span>
                 <span class="text-[10px] font-semibold tracking-[0.16em] uppercase text-sky-200/80">
@@ -94,10 +92,19 @@
             </div>
         </div>
 
-        {{-- Panel Kanan (Abu-abu dengan Kartu Form Kecil di Tengah) --}}
-        <div class="lg:col-span-5 bg-[#e5e7eb] p-6 sm:p-8 flex items-center justify-center">
+        {{-- Panel Kanan: Form Login (langsung tampil di HP) --}}
+        <div class="col-span-1 lg:col-span-5 bg-[#e5e7eb] p-0 sm:p-8 flex items-center justify-center w-full">
             <div class="w-full max-w-[360px] bg-white rounded-2xl shadow-md border border-slate-200/80 p-6 sm:p-7">
                 <div class="text-center mb-5">
+                    <div class="flex lg:hidden justify-center mb-2.5">
+                        <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center overflow-hidden p-1"
+                             style="width: 40px; height: 40px;">
+                            <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}"
+                                 alt="Logo Tirta Mulia"
+                                 class="w-full h-full object-contain"
+                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
                     <h2 class="text-lg font-bold text-slate-800">Selamat Datang</h2>
                     <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
                         Masuk menggunakan akun yang diberikan oleh Superadmin

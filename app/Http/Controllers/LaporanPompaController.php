@@ -6,24 +6,23 @@ use Illuminate\Http\Request;
 
 class LaporanPompaController extends Controller
 {
-    public function index()
+    public function intake()
     {
-        return view('laporan.pompa');
+        return view('laporan.pompa-intake');
     }
 
-    public function store(Request $request)
+    public function simpanIntake(Request $request)
     {
-        $validated =$request->validate([
-            'hari' => ['required', 'string'],
-            'tanggal' => ['required', 'date'],
-            'catatan_kendala' => ['nullable', 'string'],
-            'shifts' => ['required', 'array'],
-        ]);
+        return back()->with('success', 'Laporan Operasional Pompa Intake berhasil disimpan.');
+    }
 
-        // TODO: Simpan $validated ke database sesuai skema tabel Anda
+    public function distribusi()
+    {
+        return view('laporan.pompa-distribusi');
+    }
 
-        return redirect()
-            ->route('laporan.pompa')
-            ->with('success', 'Laporan berhasil disimpan dan masuk ke riwayat.');
+    public function simpanDistribusi(Request $request)
+    {
+        return back()->with('success', 'Laporan Operasional Pompa Distribusi, Backwash & PLN Trouble berhasil disimpan.');
     }
 }

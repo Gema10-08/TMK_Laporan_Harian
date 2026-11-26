@@ -92,9 +92,11 @@
             </div>
         </div>
 
-        {{-- Panel Kanan: Form Login (langsung tampil di HP) --}}
+        {{-- Panel Kanan: Form Login & Halaman Lupa Kata Sandi (gaya seragam) --}}
         <div class="col-span-1 lg:col-span-5 bg-[#e5e7eb] p-0 sm:p-8 flex items-center justify-center w-full">
-            <div class="w-full max-w-[360px] bg-white rounded-2xl shadow-md border border-slate-200/80 p-6 sm:p-7">
+
+            {{-- KARTU 1: FORM LOGIN --}}
+            <div id="viewLogin" class="w-full max-w-[360px] bg-white rounded-2xl shadow-md border border-slate-200/80 p-6 sm:p-7">
                 <div class="text-center mb-5">
                     <div class="flex lg:hidden justify-center mb-2.5">
                         <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center overflow-hidden p-1"
@@ -143,7 +145,11 @@
                             <input type="checkbox" name="remember" class="rounded border-slate-300">
                             <span>Ingat saya</span>
                         </label>
-                        <span class="text-[#0a5a8c] font-medium hover:underline cursor-pointer">Lupa kata sandi?</span>
+                        <button type="button"
+                                onclick="tampilLupaSandi()"
+                                class="text-[#0a5a8c] font-medium hover:underline cursor-pointer">
+                            Lupa kata sandi?
+                        </button>
                     </div>
 
                     <a href="{{ route('dashboard') }}"
@@ -152,17 +158,108 @@
                     </a>
                 </div>
 
-                <div class="mt-5 rounded-xl bg-slate-50 border border-slate-200/80 p-3 text-[10px] text-slate-500 leading-relaxed">
-                    <span class="font-bold text-slate-700">Belum punya akun?</span>
-                    Hubungi Superadmin untuk dibuatkan akun akses sesuai divisi kerja Anda.
+                <div class="text-center text-[9px] font-semibold tracking-[0.14em] text-slate-400 uppercase mt-5">
+                    © 2026 SPAM IKK KARIMUN
                 </div>
+            </div>
+
+            {{-- KARTU 2: HALAMAN LUPA KATA SANDI (DESAIN SENADA DENGAN KARTU LOGIN) --}}
+            <div id="viewLupaSandi" class="hidden w-full max-w-[360px] bg-white rounded-2xl shadow-md border border-slate-200/80 p-6 sm:p-7">
+                <div class="text-center mb-5">
+                    <div class="flex lg:hidden justify-center mb-2.5">
+                        <div class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center overflow-hidden p-1"
+                             style="width: 40px; height: 40px;">
+                            <img src="{{ asset('images/logo-tirta-mulia.jpeg') }}"
+                                 alt="Logo Tirta Mulia"
+                                 class="w-full h-full object-contain"
+                                 style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-800">Lupa Kata Sandi</h2>
+                    <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                        Masukkan alamat email Anda untuk langsung terhubung ke aplikasi email
+                    </p>
+                </div>
+
+                <form onsubmit="kirimKeEmail(event)" class="space-y-3.5">
+                    <div>
+                        <label for="emailLupaSandi" class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                            ALAMAT EMAIL
+                        </label>
+                        <input
+                            type="email"
+                            id="emailLupaSandi"
+                            name="email"
+                            required
+                            placeholder="nama@email.com"
+                            class="w-full rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:bg-white focus:border-[#0a5a8c] focus:outline-none"
+                        >
+                    </div>
+
+                    <div id="statusEmail"
+                         class="hidden rounded-xl bg-emerald-50 border border-emerald-200 p-3 text-[11px] text-emerald-800 leading-relaxed">
+                        Membuka aplikasi email untuk <strong id="emailTujuan"></strong>.
+                        <a id="tautanEmailManual" href="#" class="font-bold underline ml-1">Buka Email</a>
+                    </div>
+
+                    <button type="submit"
+                            class="block w-full text-center bg-[#0a5a8c] hover:bg-[#074770] text-white font-semibold text-xs py-2.5 rounded-lg shadow-sm transition cursor-pointer">
+                        Lanjutkan ke Email →
+                    </button>
+
+                    <button type="button"
+                            onclick="tampilLogin()"
+                            class="block w-full text-center bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-semibold text-xs py-2 rounded-lg transition cursor-pointer">
+                        ← Kembali ke Login
+                    </button>
+                </form>
 
                 <div class="text-center text-[9px] font-semibold tracking-[0.14em] text-slate-400 uppercase mt-5">
                     © 2026 SPAM IKK KARIMUN
                 </div>
             </div>
+
         </div>
 
     </div>
+
+    <script>
+        function tampilLupaSandi() {
+            const loginInput = document.getElementById('login');
+            const emailInput = document.getElementById('emailLupaSandi');
+
+            if (loginInput && loginInput.value.includes('@')) {
+                emailInput.value = loginInput.value.trim();
+            }
+
+            document.getElementById('statusEmail').classList.add('hidden');
+            document.getElementById('viewLogin').classList.add('hidden');
+            document.getElementById('viewLupaSandi').classList.remove('hidden');
+            setTimeout(() => emailInput.focus(), 50);
+        }
+
+        function tampilLogin() {
+            document.getElementById('viewLupaSandi').classList.add('hidden');
+            document.getElementById('viewLogin').classList.remove('hidden');
+        }
+
+        function kirimKeEmail(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailLupaSandi').value.trim();
+            if (!email) return;
+
+            const subject = encodeURIComponent('Permintaan Reset Kata Sandi - SPAM IKK Karimun');
+            const body = encodeURIComponent(
+                `Halo,\n\nSaya mengajukan permintaan reset kata sandi untuk akun dengan email:\n${email}\n\nTerima kasih.`
+            );
+            const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+
+            document.getElementById('emailTujuan').textContent = email;
+            document.getElementById('tautanEmailManual').href = mailtoUrl;
+            document.getElementById('statusEmail').classList.remove('hidden');
+
+            window.location.href = mailtoUrl;
+        }
+    </script>
 </body>
 </html>

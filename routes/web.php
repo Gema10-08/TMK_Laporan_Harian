@@ -11,7 +11,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/login', function () {
-    return redirect()->route('dashboard');
+    return view('auth.login');
 })->name('login');
 
 Route::get('/laporan/operasional-pompa', function () {
